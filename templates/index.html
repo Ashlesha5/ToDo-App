@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do App</title>
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            background-color:DodgerBlue;
+            color: White
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        form {
+            display: inline;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #3CB371;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2E8B57;
+        }
+        a {
+            margin-left: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .delete-button {
+            background-color: #F08080;
+        }
+        .delete-button:hover {
+            background-color: #CD5C5C;
+        }
+    </style>
+</head>
+<body>
+ <h1> Tasks </h1>
+ <ul>
+     {% for todo in todos %}
+        <li>
+            <form action="{{ url_for('update', index=loop.index0) }}" method="post" style="display:inline;">
+                <input type="checkbox" name="done" {% if todo['done'] %}checked{% endif %} onchange="this.form.submit()">
+                {{ todo['task'] }}
+            </form>
+            <a href="{{ url_for('edit', index=loop.index0) }}">Edit</a>
+            <form action="{{ url_for('delete', index=loop.index0) }}" method="post" style="display:inline;">
+                <button type="submit" class="delete-button">Delete</button>
+            </form>
+
+        </li>
+     {% endfor %}
+ </ul>
+<form action="{{ url_for('add') }}" method="post">
+   <input type="text" name="todo">
+   <button type="submit" >Add Task</button>
+ </form>
+</body>
+</html>
